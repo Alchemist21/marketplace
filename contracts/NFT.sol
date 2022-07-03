@@ -18,7 +18,19 @@ contract NFT is ERC721URIStorage {
     //set approval for all allows to change ownership
 
     //constructor
-    constructor(address marketplaceAddress) ERC721('Newyorknft', 'NYC') {
+    constructor(address marketplaceAddress) ERC721('Newyork', 'NYC') {
         contractAddress = marketplaceAddress;
+    }
+
+    function mintToken(string memory tokenURI) public returns(uint) {
+        _tokenIds.increment();
+        uint256 newItemId = _tokenIds.current();
+        _mint(msg.sender, newItemId);
+        //set token URI : id and url
+        _setTokenURI(newItemId, tokenURI);
+        //give marketplace the approval to transact between users
+        setApprovalForAll(contractAddress, true);
+        //mint token and set it for sale
+        return newItemId;
     }
 }
