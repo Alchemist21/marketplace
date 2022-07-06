@@ -87,7 +87,31 @@ contract Market is ReentrancyGuard {
     );
     
     //nft trnasactions
+    IERC721(nftContract).transferFrom(msg.sender, address(this), tokenId);
 
+    emit MarketTokenMinted(
+        itemId,
+        nftContract,
+        tokenId,
+        msg.sender,
+        address(0),
+        price,
+        false
+    );
+
+    //function to conduct market sales
+    function createMarketSale(
+        address nftContract,
+        uint itemId)
+        public payable nonReentrant {
+            uint price = idToMarketToken[itemId].price;
+            uint tokenId = idToMarketToken[itemId].tokenId;
+            require(msg.value == price, 'Please submit the asking price in order to continue')
+        }
+    
+
+
+    //function to fetch market items
 
     }
 
